@@ -21,6 +21,8 @@ btn = Button(10)
 scrnstate = 1
 curntstate = 1
 lnstate = 1
+pstpotbval = potb.value
+pstpotaval = pota.value
 trans = True
 bklight = ""
 blnkcur = ""
@@ -31,45 +33,50 @@ builddate = "9/21/2024"
 
 def verttrav():
     global lnstate
-    if potb.value >= 0 and potb.value < .25:
-        lcd.move_to(19,0)
-        lnstate = 1
-    elif potb.value >= .25 and potb.value < .5:
-        lcd.move_to(19,1)
-        lnstate = 2
-    elif potb.value >= .5 and potb.value < .75:
-        lcd.move_to(19,2)
-        lnstate = 3
-    elif potb.value >= .75 and potb.value <= 1:
-        lcd.move_to(19,3)
-        lnstate = 4
-    else:
-        print("ERROR")
+    global pstpotbval
+    if pstpotbval != potb.value:
+        if potb.value >= 0 and potb.value < .25:
+            lcd.move_to(19,0)
+            lnstate = 1
+        elif potb.value >= .25 and potb.value < .5:
+            lcd.move_to(19,1)
+            lnstate = 2
+        elif potb.value >= .5 and potb.value < .75:
+            lcd.move_to(19,2)
+            lnstate = 3
+        elif potb.value >= .75 and potb.value <= 1:
+            lcd.move_to(19,3)
+            lnstate = 4
+        else:
+            print("ERROR")
+    pstpotbval = potb.value
 
 def hortrav():
     global scrnstate
     global trans
     global curntstate
     global scrnlist
-    if pota.value >= 0 and pota.value < .25:
-        scrnstate = 1
-    elif pota.value >= .25 and pota.value < .5:
-        scrnstate = 2
-    elif pota.value >= .5 and pota.value < .75:
-        scrnstate = 3
-    elif pota.value >= .75 and pota.value <= 1:
-        scrnstate = 4
-    else:
-        lcd.putstr("ERROR")
-    if scrnstate != curntstate or trans == False:
-        trans = True
-        lcd.clear()
-        lcd.move_to(0,0)
-        lcd.putstr(scrnlist[scrnstate-1])
-        lcd.move_to(0,0)
-        lcd.blink_cursor_off()
-        sleep(0.5)
-        lcd.blink_cursor_on()
+    global pstpotaval
+    if pota.value != pstpotaval or trans == False:
+        if pota.value >= 0 and pota.value < .25:
+            scrnstate = 1
+        elif pota.value >= .25 and pota.value < .5:
+            scrnstate = 2
+        elif pota.value >= .5 and pota.value < .75:
+            scrnstate = 3
+        elif pota.value >= .75 and pota.value <= 1:
+            scrnstate = 4
+        else:
+            lcd.putstr("ERROR")
+        if scrnstate != curntstate or trans == False:
+            trans = True
+            lcd.clear()
+            lcd.move_to(0,0)
+            lcd.putstr(scrnlist[scrnstate-1])
+            lcd.move_to(0,0)
+            lcd.blink_cursor_off()
+            sleep(0.5)
+            lcd.blink_cursor_on()
     curntstate = scrnstate
 
 def menucreation():
@@ -235,6 +242,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         lcd.clear()
         trans = False
         mainloop()
+
     def check(): #Checks when button is pressed to see which function to call
         global lnstate
         global scrnstate
@@ -261,7 +269,7 @@ del(bootscreen)
 menucreation()
 scrnlist = [menua,menub,menuc,menud]
 lcd.putstr(scrnlist[0])
-lcd.move_to(0,0)
+lcd.move_to(19,0)
 
 
 def mainloop():
