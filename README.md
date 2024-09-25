@@ -1,7 +1,9 @@
-# pipproject
-This is the code and document associated with a potential invention using a raspberry pi pico and LCD display to make a wrist mounted computer.
+# FoxOS
+This operating system was designed to work in tandem with a raspberry pi pico and a 2004 I2C LCD display to provide the user with a small yet powerful system to use on projects.
+The base system currently works based off of 2 potentiometers and a button, each relaying information back to the pico via GPIO signals. The pico determines what to do with these inputs and sends the result to the LCD I2C display for user feedback.
 
-The code contains a few different pieces, mostly pertaining to the LCD I2C API and the setup for that API.
-The main section however is designed to function as a miniature operating system for the user.
+# Current State of the Project
+The project is currently still in alpha development, many base features have yet to be implemented, but development is slowly moving forward.
 
-This REPO is still under development, more changes are likely in the future
+# Future plans
+Produce some kind of hardware detector to easily integrate hardware into the system for use, and associasted apps.
