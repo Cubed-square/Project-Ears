@@ -7,11 +7,11 @@ from machine import I2C
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import gc
-#I2C header
+#I2C init
 I2C_ADDR     = 0x27
 I2C_NUM_ROWS = 4
 I2C_NUM_COLS = 20
-#creating components
+#components init
 pota = Pot(26)
 potb = Pot(27)
 i2c = I2C(0, sda=machine.Pin(0), scl=machine.Pin(1), freq=400000)
@@ -27,11 +27,11 @@ trans = True
 bklight = ""
 blnkcur = ""
 gc.enable()
-#UPDATE THIS INFORMATION #########################################################################################################
+#UPDATE THIS INFORMATION #############################Build info############################################################################
 buildnumb = "1.0.5"
 builddate = "10/09/2024"
 
-def verttrav():
+def verttrav(): #Allows for the cursor to change rows, there are 4 rows in a 2004 I2C display
     global lnstate
     global pstpotbval
     if pstpotbval != potb.value:
@@ -51,7 +51,7 @@ def verttrav():
             print("ERROR VERTTRAV voltage invalid")
     pstpotbval = potb.value
 
-def hortrav():
+def hortrav(): #Allows for the cursor to change menus, there are 4 menus
     global scrnstate
     global trans
     global curntstate
@@ -99,7 +99,8 @@ def menucreation():
         blnkcur = "Y"
     else:
         blnkcur = "N"
-def bootscreen():
+        
+def bootscreen(): #Creates the FoxOS bootscreen with custom characters and lists the OS version
     FpartA = (0x03,0x07,0x06,0x07,0x0F,0x0C,0x1C,0x18)
     FpartB = (0x00,0x1E,0x1E,0x00,0x1C,0x1C,0x00,0x00)
     OpartA = (0x1E,0x1F,0x19,0x11,0x11,0x13,0x1F,0x0E)
@@ -141,7 +142,7 @@ def bootscreen():
 
 class apps:#APPS-------------------------------APPS-------------------------------------------------------APPS
     
-    def SysInfo():
+    def SysInfo(): #Lists the system information
         global trans
         lcd.putstr(f"SYSTEM INFORMATION  BuildDate:{builddate}FoxOS Build {buildnumb}")
         sleep(5)
@@ -150,7 +151,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
 
-    def Calc():
+    def Calc(): #IN DEVELOPMENT
         global trans
         lcd.putstr("Welcome 2 Calculator\n")
         lcd.putstr("IN DEVELOPMENT")
@@ -160,7 +161,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
     
-    def SysSettings():
+    def SysSettings(): #Allows the user to change settings such as backlight and blinking cursor
         global trans
         global lnstate
         global bklight
@@ -213,14 +214,14 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
 
-    def shutdown():
+    def shutdown(): #Makes the pico enter low power mode by cutting LCD power and ending the program
         lcd.clear()
         lcd.putstr("Powering down...")
         sleep(3)
         lcd.backlight_off()
         lcd.display_off()
 
-    def thermometer():
+    def thermometer(): #Reads the temperature at the thermometer at the inbuilt thermometer in degrees F
         global trans
         lcd.clear()
         temper = pico_temp_sensor.temp
@@ -230,7 +231,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
     
-    def taskman():
+    def taskman(): #Lists the amount of memory currently allocated and the amount currently free in KB
         global trans
         lcd.clear()
         memfree = str(round((gc.mem_free()/1000)))
@@ -243,7 +244,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
 
-    def check(): #Checks when button is pressed to see which function to call
+    def check(): #When the button is pressed this function checks the row and menu "coordinates" and loads the appropriate function from the apps class
         global lnstate
         global scrnstate
         if (scrnstate-1) == 0: #MENU 1
@@ -265,14 +266,14 @@ class apps:#APPS-------------------------------APPS-----------------------------
 
 #Initialization checklist
 bootscreen()
-del(bootscreen)
+del(bootscreen) #this saves memory
 menucreation()
 scrnlist = [menua,menub,menuc,menud]
 lcd.putstr(scrnlist[0])
 lcd.move_to(19,0)
 
 
-def mainloop():
+def mainloop(): #The primary loop of the program, this is essentially the kernel of the operating system and oversees operations
     global scrnstate
     global curntstate
     global lnstate
