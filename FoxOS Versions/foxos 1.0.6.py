@@ -141,7 +141,7 @@ def bootscreen():
 
 class apps:#APPS-------------------------------APPS-------------------------------------------------------APPS
     
-    def SysInfo():
+    def SysInfo(): #Lists system information from the variables at the top
         global trans
         lcd.putstr(f"SYSTEM INFORMATION  BuildDate:{builddate}FoxOS Build {buildnumb}")
         sleep(5)
@@ -150,33 +150,80 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
 
-    def Calc():
+    def Calc(): #Simple 4 function calculator
         global trans
         global lnstate
         lcd.putstr("Operation: + - / x  ")
         lcd.putstr("Number 1:___        ")
         lcd.putstr("Number 2:___        ")
-        lcd.putstr("Exit")
-        while True:
-            verttrav()
-            if lnstate == 1:
-                if pota.value != pstpotaval or trans == False:
-                    if pota.value >= 0 and pota.value < .25:
-                        mvstate = 1
-                        lcd.move_to(11,0)
-                    elif pota.value >= .25 and pota.value < .5:
-                        mvstate = 2
-                        lcd.move_to(13,0)
-                    elif pota.value >= .5 and pota.value < .75:
-                        mvstate = 3
-                        lcd.move_to(15,0)
-                    elif pota.value >= .75 and pota.value <= 1:
-                        mvstate = 4
-                        lcd.move_to(17,0)
-                    else:
-                        print("ERROR HORTRAV voltage invalid")
-                    
-            
+        selectop = False
+        selectfirst = False
+        selectsecond = False
+        while selectop == False: #Selects operation to be completed
+            if pota.value != pstpotaval or trans == False:
+                if pota.value >= 0 and pota.value < .25:
+                    mvstate = 1
+                    lcd.move_to(11,0)
+                    if btn.is_pressed:
+                        selectop = True
+                elif pota.value >= .25 and pota.value < .5:
+                    mvstate = 2
+                    lcd.move_to(13,0)
+                    if btn.is_pressed:
+                        selectop = True
+                elif pota.value >= .5 and pota.value < .75:
+                    mvstate = 3
+                    lcd.move_to(15,0)
+                    if btn.is_pressed:
+                        selectop = True
+                elif pota.value >= .75 and pota.value <= 1:
+                    mvstate = 4
+                    lcd.move_to(17,0)
+                    if btn.is_pressed:
+                        selectop = True
+        lcd.move_to(19,1)
+        ValStrOne = ""
+        ValStrTwo = ""
+        sleep(0.5)
+        while selectfirst == False: #Selects first value from 0-200
+            sleep(0.1)
+            lcd.move_to(17,1)
+            lcd.putstr("   ")
+            lcd.move_to(17,1)
+            ValStrOne = int(pota.value*100)
+            ValStrTwo = int(potb.value*100)
+            ValStrSumA = str(ValStrOne + ValStrTwo)
+            lcd.putstr(ValStrSumA)
+            if btn.is_pressed:
+                selectfirst = True
+        lcd.move_to(19,2)
+        ValStrThree = ""
+        ValStrFour = ""
+        sleep(0.5)
+        while selectsecond == False: #Selects second value from 0-200
+            sleep(0.1)
+            lcd.move_to(17,2)
+            lcd.putstr("   ")
+            lcd.move_to(17,2)
+            ValStrThree = int(pota.value*100)
+            ValStrFour = int(potb.value*100)
+            ValStrSumB = str(ValStrThree + ValStrFour)
+            lcd.putstr(ValStrSumB)
+            if btn.is_pressed:
+                selectsecond = True
+        if mvstate == 1:
+            lcd.move_to(0,3)
+            lcd.putstr(f"The answer is:{(ValStrOne+ValStrTwo)+(ValStrThree+ValStrFour)}")
+        elif mvstate == 2:
+            lcd.move_to(0,3)
+            lcd.putstr(f"The answer is:{(ValStrOne+ValStrTwo)-(ValStrThree+ValStrFour)}")
+        elif mvstate == 3:
+            lcd.move_to(0,3)
+            lcd.putstr(f"The answer is:{round((ValStrOne+ValStrTwo)/(ValStrThree+ValStrFour),2)}")
+        elif mvstate == 4:
+            lcd.move_to(0,3)
+            lcd.putstr(f"The answer is:{round((ValStrOne+ValStrTwo)*(ValStrThree+ValStrFour),2)}")
+        sleep(5)
         #closing footer
         lcd.clear()
         trans = False
@@ -252,7 +299,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
         trans = False
         mainloop()
     
-    def taskman():
+    def taskman(): #Shows allocated and free memory in KB
         global trans
         lcd.clear()
         memfree = str(round((gc.mem_free()/1000)))
