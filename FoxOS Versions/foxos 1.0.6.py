@@ -153,6 +153,7 @@ class apps:#APPS-------------------------------APPS-----------------------------
     def Calc(): #Simple 4 function calculator
         global trans
         global lnstate
+        global pstpotaval
         lcd.putstr("Operation: + - / x  ")
         lcd.putstr("Number 1:___        ")
         lcd.putstr("Number 2:___        ")
@@ -160,27 +161,26 @@ class apps:#APPS-------------------------------APPS-----------------------------
         selectfirst = False
         selectsecond = False
         while selectop == False: #Selects operation to be completed
-            if pota.value != pstpotaval or trans == False:
-                if pota.value >= 0 and pota.value < .25:
-                    mvstate = 1
-                    lcd.move_to(11,0)
-                    if btn.is_pressed:
-                        selectop = True
-                elif pota.value >= .25 and pota.value < .5:
-                    mvstate = 2
-                    lcd.move_to(13,0)
-                    if btn.is_pressed:
-                        selectop = True
-                elif pota.value >= .5 and pota.value < .75:
-                    mvstate = 3
-                    lcd.move_to(15,0)
-                    if btn.is_pressed:
-                        selectop = True
-                elif pota.value >= .75 and pota.value <= 1:
-                    mvstate = 4
-                    lcd.move_to(17,0)
-                    if btn.is_pressed:
-                        selectop = True
+            if pota.value >= 0 and pota.value < .25:
+                mvstate = 1
+                lcd.move_to(11,0)
+                if btn.is_pressed:
+                    selectop = True
+            elif pota.value >= .25 and pota.value < .5:
+                mvstate = 2
+                lcd.move_to(13,0)
+                if btn.is_pressed:
+                    selectop = True
+            elif pota.value >= .5 and pota.value < .75:
+                mvstate = 3
+                lcd.move_to(15,0)
+                if btn.is_pressed:
+                    selectop = True
+            elif pota.value >= .75 and pota.value <= 1:
+                mvstate = 4
+                lcd.move_to(17,0)
+                if btn.is_pressed:
+                    selectop = True
         lcd.move_to(19,1)
         ValStrOne = ""
         ValStrTwo = ""
