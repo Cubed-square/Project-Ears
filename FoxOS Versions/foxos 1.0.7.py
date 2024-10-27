@@ -3,10 +3,23 @@ import picozero
 from picozero import Pot, LED, Button, pico_temp_sensor
 from time import sleep
 import machine
-from machine import I2C
+from machine import I2C, RTC
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import gc
+'''
+FOXOS DEV NOTES:
+
+Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
+
+Finished apps: Systeminfo, Systemsettings, Thermometer, MemoryList,
+Finished but could use work: Calculator[Reason: could use higher cap than 200]
+
+Waiting on hardware: Clock, Volume, Music
+Unused: PlaceholderA, PlaceholderB, PlaceholderC, PlaceholderD
+
+Functions for started projects are @ line 326
+'''
 #I2C header
 I2C_ADDR     = 0x27
 I2C_NUM_ROWS = 4
@@ -28,8 +41,8 @@ bklight = ""
 blnkcur = ""
 gc.enable()
 #UPDATE THIS INFORMATION #########################################################################################################
-buildnumb = "1.0.6"
-builddate = "10/15/2024"
+buildnumb = "1.0.7"
+builddate = "10/26/2024"
 
 def verttrav():
     global lnstate
@@ -86,9 +99,10 @@ def menucreation():
     global menud
     global bklight
     global blnkcur
-    menua= "Calculator          System Settings     System Information  Voice Assistant"
-    menub= "Music               Volume              Thermometer         DOOM2024"
-    menuc= "Lynx                Clock               Memory List         Steel Commanders"
+    #      "                    "                   "                   "                   "MAX LENGTH PER MENU
+    menua= "Calculator          System Settings     System Information  PlaceholderA"
+    menub= "Music               Volume              Thermometer         PlaceholderB"
+    menuc= "PlaceholderC        Clock               Memory List         PlaceholderD"
     menud= "Exit"
     #setting bklight and blnkcur in innit
     if lcd.backlight_on:
@@ -311,7 +325,34 @@ class apps:#APPS-------------------------------APPS-----------------------------
         lcd.clear()
         trans = False
         mainloop()
-
+    
+    def clock(): #INDEVELOPMENT
+        global trans
+        lcd.clear()
+        lcd.putstr("Clock failed to run")
+        sleep(3)
+        lcd.clear()
+        trans = False
+        mainloop()
+        
+    def music(): #INDEVELOPMENT
+        global trans
+        lcd.clear()
+        lcd.putstr("Music failed to run")
+        sleep(3)
+        lcd.clear()
+        trans = False
+        mainloop()
+        
+    def volume(): #INDEVELOPMENT
+        global trans
+        lcd.clear()
+        lcd.putstr("Volume failed to run")
+        sleep(3)
+        lcd.clear()
+        trans = False
+        mainloop()
+        
     def check(): #Checks when button is pressed to see which function to call
         global lnstate
         global scrnstate
@@ -325,9 +366,15 @@ class apps:#APPS-------------------------------APPS-----------------------------
         if (scrnstate-1) == 1: #MENU 2
             if(lnstate-1) == 2:
                 apps.thermometer()
+            if(lnstate-1) == 0:
+                apps.music()
+            if(lnstate-1) == 1:
+                apps.volume()
         if (scrnstate-1) == 2: #MENU 3
             if (lnstate-1) == 2:
                 apps.taskman()
+            if(lnstate-1) == 1:
+                apps.clock()
         if (scrnstate-1) == 3: # MENU 4
             if (lnstate-1) == 0:
                 apps.shutdown()
@@ -356,3 +403,4 @@ def mainloop():
             break
         gc.collect()
 mainloop()
+
