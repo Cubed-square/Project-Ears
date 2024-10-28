@@ -60,8 +60,6 @@ def verttrav():
         elif potb.value >= .75 and potb.value <= 1:
             lcd.move_to(19,3)
             lnstate = 4
-        else:
-            print("ERROR VERTTRAV voltage invalid")
     pstpotbval = potb.value
 
 def hortrav():
@@ -79,8 +77,7 @@ def hortrav():
             scrnstate = 3
         elif pota.value >= .75 and pota.value <= 1:
             scrnstate = 4
-        else:
-            print("ERROR HORTRAV voltage invalid")
+
         if scrnstate != curntstate or trans == False:
             trans = True
             lcd.clear()
