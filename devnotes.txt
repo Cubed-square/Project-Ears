@@ -1,0 +1,15 @@
+FOXOS DEV NOTES: [Make sure these are updated as things are completed!]
+Ideas:
+ - External hardware loader:load .py files from a folder in the pico 2 to allow users to create custom integrations into the hardware EASILY
+ - Re-order some features: Re-order the layout to make it more streamlined, could be done by simply changing names and which apps.___ to open in the check() function
+ - Optimize optimize optimize: Always important, but especially as new versions of FoxOS roll out, make sure processes are correctly written to help with our limited SRAM
+ - Experiment with different microcontrollers: not everyone has a raspberry pico 2, so different ports could be designed for different boards such as the ESP32s or Arduinos [THIS IS A BIG PROJECT]
+ - Fill in the Placeholders!
+ 
+Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
+
+Finished apps: Systeminfo, Systemsettings, Thermometer, MemoryList,
+Finished but could use work: Calculator[Reason: could use higher cap than 200]
+
+Waiting on hardware: Clock, Volume, Music
+Unused: PlaceholderA, PlaceholderB, PlaceholderC, PlaceholderD
