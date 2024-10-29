@@ -9,7 +9,11 @@ from pico_i2c_lcd import I2cLcd
 import gc
 '''
 FOXOS DEV NOTES:
-
+Ideas:
+ - External hardware loader:load .py files from a folder in the pico 2 to allow users to create custom integrations into the hardware EASILY
+ - Re-order some features: Re-order the layout to make it more streamlined, could be done by simply changing names and which apps.___ to open in the check() function
+ - Optimize optimize optimize: Always important, but especially as new versions of FoxOS roll out, make sure processes are correctly written to help with our limited SRAM
+ 
 Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
 
 Finished apps: Systeminfo, Systemsettings, Thermometer, MemoryList,
@@ -60,8 +64,6 @@ def verttrav():
         elif potb.value >= .75 and potb.value <= 1:
             lcd.move_to(19,3)
             lnstate = 4
-        else:
-            print("ERROR VERTTRAV voltage invalid")
     pstpotbval = potb.value
 
 def hortrav():
@@ -79,8 +81,7 @@ def hortrav():
             scrnstate = 3
         elif pota.value >= .75 and pota.value <= 1:
             scrnstate = 4
-        else:
-            print("ERROR HORTRAV voltage invalid")
+
         if scrnstate != curntstate or trans == False:
             trans = True
             lcd.clear()
