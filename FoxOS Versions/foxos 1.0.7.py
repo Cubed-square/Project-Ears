@@ -7,23 +7,7 @@ from machine import I2C, RTC
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import gc
-'''
-FOXOS DEV NOTES:
-Ideas:
- - External hardware loader:load .py files from a folder in the pico 2 to allow users to create custom integrations into the hardware EASILY
- - Re-order some features: Re-order the layout to make it more streamlined, could be done by simply changing names and which apps.___ to open in the check() function
- - Optimize optimize optimize: Always important, but especially as new versions of FoxOS roll out, make sure processes are correctly written to help with our limited SRAM
- 
-Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
-
-Finished apps: Systeminfo, Systemsettings, Thermometer, MemoryList,
-Finished but could use work: Calculator[Reason: could use higher cap than 200]
-
-Waiting on hardware: Clock, Volume, Music
-Unused: PlaceholderA, PlaceholderB, PlaceholderC, PlaceholderD
-
-Functions for started projects are @ line 326
-'''
+#Functions for unfinished projects are @ line 326
 #I2C header
 I2C_ADDR     = 0x27
 I2C_NUM_ROWS = 4
