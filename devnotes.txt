@@ -5,6 +5,8 @@ Ideas:
  - Optimize optimize optimize: Always important, but especially as new versions of FoxOS roll out, make sure processes are correctly written to help with our limited SRAM
  - Experiment with different microcontrollers: not everyone has a raspberry pico 2, so different ports could be designed for different boards such as the ESP32s or Arduinos [THIS IS A BIG PROJECT]
  - Fill in the Placeholders!
+ - Radio app using TEA5767 and the associated drivers (for that classic fallout feel)
+ - Flashlight app using the backlit display and all white pixels (custom character)
  
 Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
 
