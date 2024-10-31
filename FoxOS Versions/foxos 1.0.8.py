@@ -7,7 +7,7 @@ from machine import I2C, RTC
 from lcd_api import LcdApi
 from pico_i2c_lcd import I2cLcd
 import gc
-#Functions for unfinished projects are @ line 326
+#Functions for unfinished projects are @ line 330
 #I2C header
 I2C_ADDR     = 0x27
 I2C_NUM_ROWS = 4
@@ -30,7 +30,7 @@ blnkcur = ""
 gc.enable()
 #UPDATE THIS INFORMATION #########################################################################################################
 buildnumb = "1.0.8"
-builddate = "10/30/2024"
+builddate = "10/31/2024"
 
 def verttrav():
     global lnstate
@@ -224,6 +224,18 @@ class apps:#APPS-------------------------------APPS-----------------------------
             lcd.putstr(f"The answer is:{round((ValStrOne+ValStrTwo)*(ValStrThree+ValStrFour),2)}")
         sleep(5)
         #closing footer
+        del selectop
+        del selectfirst #NEEDS TESTING, but designed for memory improvements
+        del selectsecond
+        del mvstate
+        del ValStrOne
+        del ValStrTwo
+        del ValStrThree
+        del ValStrFour
+        del ValStrSumA
+        del ValStrSumB
+        del selectfirst
+        del selectsecond
         lcd.clear()
         trans = False
         mainloop()
