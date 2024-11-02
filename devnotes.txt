@@ -16,5 +16,5 @@ Waiting on hardware: Clock, Volume, Music
 Unused: PlaceholderA, PlaceholderB, PlaceholderC, PlaceholderD
 
 Performance specs: (As of FoxOS 1.0.8)
-Storage: 90.65/4000.00 KB
+Storage: 90.65/4000.00 KB (including dependencies)
 Memory: 41/512 KB
