@@ -1,6 +1,8 @@
 # Project EARS
 ## Empowering Accessibility <sub>through</sub> Rational Solutions
 
+**Warning, this is the Experimental Branch, not all changes are final**
+
 This is the code and document associated with a potential invention using a raspberry pico 2 and 2004 LCD display to make a wrist mounted computer.
 
 The code contains a few different pieces, mostly pertaining to the LCD I2C API and the setup for that API.
