@@ -1,5 +1,5 @@
 # Project EARS
-## **E**mpowering **A**ccessibility <sub>through</sub> **R**ational **S**olutions
+## Empowering Accessibility <sub>through</sub> Rational Solutions
 
 This is the code and document associated with a potential invention using a raspberry pico 2 and 2004 LCD display to make a wrist mounted computer.
 
