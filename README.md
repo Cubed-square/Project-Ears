@@ -9,3 +9,5 @@ The main section however is designed to function as a miniature operating system
 Versions will roll out with reasonable regulariy as features are added and hardware is integrated.
 
 This REPO is still under development, more changes are likely in the future
+
+Sigma sigma on the wall
