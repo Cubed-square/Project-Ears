@@ -224,18 +224,6 @@ class apps:#APPS-------------------------------APPS-----------------------------
             lcd.putstr(f"The answer is:{round((ValStrOne+ValStrTwo)*(ValStrThree+ValStrFour),2)}")
         sleep(5)
         #closing footer
-        del selectop
-        del selectfirst #NEEDS TESTING, but designed for memory improvements
-        del selectsecond
-        del mvstate
-        del ValStrOne
-        del ValStrTwo
-        del ValStrThree
-        del ValStrFour
-        del ValStrSumA
-        del ValStrSumB
-        del selectfirst
-        del selectsecond
         lcd.clear()
         trans = False
         mainloop()
