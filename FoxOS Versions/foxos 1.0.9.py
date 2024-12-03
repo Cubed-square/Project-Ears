@@ -359,20 +359,24 @@ class apps:#APPS-------------------------------APPS-----------------------------
         global lnstate
         global scrnstate
         if (scrnstate-1) == 0: #MENU 1
-            if (lnstate-1) == 2:
-                apps.flashlight()
+            if (lnstate-1) == 0:
+                apps.calc()
             elif (lnstate-1) == 1:
                 apps.thermometer()
-            elif (lnstate-1) == 0:
-                apps.calc()
+            elif (lnstate-1) == 2:
+                apps.flashlight()
             elif (lnstate-1) == 3:
                 apps.clock()
         
         if (scrnstate-1) == 1: #MENU 2
-            if(lnstate-1) == 0:
+            if (lnstate-1) == 0:
                 apps.music()
-            elif(lnstate-1) == 1:
+            elif (lnstate-1) == 1:
                 apps.volume()
+            elif (lnstate-1) == 2: #PLACEHOLDER
+                pass
+            elif (lnstate-1) == 3: #PLACEHOLDER
+                pass
         
         if (scrnstate-1) == 2: #MENU 3
             if (lnstate-1) == 0:
@@ -382,6 +386,15 @@ class apps:#APPS-------------------------------APPS-----------------------------
             if(lnstate-1) == 1:
                 apps.sysettings()
                 
+            if (lnstate-1) == 0:
+                apps.sysinfo()
+            if (lnstate-1) == 1:
+                apps.sysettings()
+            if (lnstate-1) == 2:
+                apps.taskman()
+            if (lnstate-1) == 3: #PLACEHOLDER
+                pass
+            
         if (scrnstate-1) == 3: # MENU 4
             if (lnstate-1) == 0:
                 apps.shutdown()
