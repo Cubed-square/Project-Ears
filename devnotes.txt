@@ -6,6 +6,12 @@ Ideas:
  - Experiment with different microcontrollers: not everyone has a raspberry pico 2, so different ports could be designed for different boards such as the ESP32s or Arduinos [THIS IS A BIG PROJECT]
  - Fill in the Placeholders!
  - Radio app using TEA5767 and the associated drivers (for that classic fallout feel)
+ - Gas/CO2 sensor to warn the user if dangerous levels are reached (abt 40k ppm)
+ - IR LED transmitter to use as a remote for IR TV sets (This would require research into particular TV models, specs, and standardization)
+ - Humidity sensor & Barometer to detect rain possibilities out in the field (Could use a bar to determine 0-100% chance)
+ - Voltage sensor to sense if wires are live based on EM radiation (this requires more research to see if its possible to do wirelessly)
+ - Non-contact temperature sensor (this would help improve safety when working near fire, hot components, etc)
+ - 
  
 Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
 
