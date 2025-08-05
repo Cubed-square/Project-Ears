@@ -12,7 +12,7 @@ Indevelopment: Clock[Uptime], Music[On Wokwi, email for project link]
 Finished apps: Systeminfo, Systemsettings, Thermometer, MemoryList, Flashlight
 Finished but could use work: Calculator[Reason: could use higher cap than 200]
 
-Waiting on hardware: Clock, Volume, Music
+Waiting on hardware: Clock, Volume, Music, Radio
 Unused: PlaceholderA, PlaceholderB, PlaceholderC, PlaceholderD
 
 Performance specs: (As of FoxOS 1.0.8)
