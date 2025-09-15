@@ -24,4 +24,4 @@ def test():
     display.draw_text(40, 21, "E.A.R.S" ,bally)
     display.present()
 
-test()
+test()[=
