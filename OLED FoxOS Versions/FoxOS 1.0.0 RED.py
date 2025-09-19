@@ -1,16 +1,17 @@
 """SSD1309 demo (scroll)."""
 from time import sleep
-from machine import Pin, I2C  # type: ignore
+from machine import Pin, I2C, SoftI2C  # type: ignore
 from ssd1309 import Display
 from picozero import Button, Pot
 from xglcd_font import XglcdFont
+from TEA5767 import Radio
 
 
 """Test code."""
 bally = XglcdFont('fonts/Bally7x9.c', 7, 9)
 #I2C interface
-i2c = I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))  # Pico I2C bus1
-display = Display(i2c=i2c, rst=Pin(2))
+display = Display(i2c=I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))) #initialize OLED display
+radio = Radio(SoftI2C(scl=Pin(1), sda=Pin(0), freq=400000))  # initialize radio
 vertselect = Pot(27)
 btn = Button(18)
 location = ""
@@ -65,6 +66,17 @@ def sysinfo():
     display.present()
     sleep(3)
     display.clear()
+def loadradio():
+    Radio.set_frequency(radio,104.3)
+    display.clear()
+    display.draw_rectangle(0,0,128,64)
+    display.draw_text(3,3,"Fox Radio",bally)
+    display.draw_text(3,12,f"Frequency: {radio.frequency}",bally)
+    display.draw_text(3,39,"Change Frequency",bally)
+    display.draw_text(3,48,"Exit",bally)
+    display.present()
+    
+
 
 #MAINLOOP
 boot()
@@ -72,7 +84,8 @@ while True:
     menuone()
     if btn.is_pressed:
         if vertselect.value >= .75 and vertselect.value <= 1:
-            print("load radio")
+            loadradio()
+            break
         if vertselect.value >= .50 and vertselect.value <= .74:
             print("load weather report")
         if vertselect.value >= .25 and vertselect.value <= .49:
