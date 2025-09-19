@@ -1,4 +1,6 @@
-"""SSD1309 demo (scroll)."""
+'''Issues
+Clipping on audio playback
+'''
 from time import sleep
 from machine import Pin, I2C, SoftI2C  # type: ignore
 from ssd1309 import Display
@@ -12,6 +14,7 @@ bally = XglcdFont('fonts/Bally7x9.c', 7, 9)
 #I2C interface
 display = Display(i2c=I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))) #initialize OLED display
 radio = Radio(SoftI2C(scl=Pin(1), sda=Pin(0), freq=400000))  # initialize radio
+radio.signal_adc_level = 10
 vertselect = Pot(27)
 btn = Button(18)
 location = ""
@@ -66,6 +69,8 @@ def sysinfo():
     display.present()
     sleep(3)
     display.clear()
+    
+
 def loadradio():
     Radio.set_frequency(radio,104.3)
     display.clear()
@@ -75,7 +80,13 @@ def loadradio():
     display.draw_text(3,39,"Change Frequency",bally)
     display.draw_text(3,48,"Exit",bally)
     display.present()
-    
+    while True:
+        if vertselect.value <= .50:
+            display.draw_text(3,39,"Change Frequency",bally, invert = True)
+            display.draw_text(3,48,"Exit",bally, invert = False)
+        else:
+            display.draw_text(3,39,"Change Frequency",bally, invert = False)
+            display.draw_text(3,48,"Exit",bally, invert = True)
 
 
 #MAINLOOP
@@ -92,4 +103,5 @@ while True:
             sysinfo()
         if vertselect.value >= 0 and vertselect.value <= .24:
             print("load settings")
+    print(vertselect.value)
     sleep(0.01)
