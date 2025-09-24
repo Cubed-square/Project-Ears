@@ -15,6 +15,7 @@ bally = XglcdFont('fonts/Bally7x9.c', 7, 9)
 display = Display(i2c=I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))) #initialize OLED display
 radio = Radio(SoftI2C(scl=Pin(1), sda=Pin(0), freq=400000))  # initialize radio
 radio.signal_adc_level = 10
+Radio.mute = True
 vertselect = Pot(26)
 btn = Button(18)
 location = ""
@@ -101,6 +102,7 @@ def changefreq():
 def loadradio():
     display.clear()
     sleep(1)
+    Radio.mute = False
     Radio.set_frequency(radio,104.3)
     display.clear()
     display.draw_rectangle(0,0,128,64)
