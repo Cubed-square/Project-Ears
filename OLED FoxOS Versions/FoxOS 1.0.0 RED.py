@@ -7,7 +7,6 @@ from ssd1309 import Display
 from picozero import Button, Pot
 from xglcd_font import XglcdFont
 from TEA5767 import Radio
-from BME280 import 
 
 
 """Test code."""
@@ -131,6 +130,7 @@ def loadradio():
 
 
 #MAINLOOP
+print(i2c.scan())
 boot()
 while True:
     menuone()
