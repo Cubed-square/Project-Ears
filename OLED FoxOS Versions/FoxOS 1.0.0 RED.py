@@ -130,7 +130,6 @@ def loadradio():
 
 
 #MAINLOOP
-print(i2c.scan())
 boot()
 while True:
     menuone()
