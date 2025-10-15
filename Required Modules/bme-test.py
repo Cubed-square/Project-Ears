@@ -1,6 +1,6 @@
-import machine
+from machine import I2C, Pin
 import bme280
 
-i2c = machine.I2C(sda=machine.Pin(8), scl=machine.Pin(9))
-bme = bme280.BME280(i2c=i2c)
+dev = I2C(scl=Pin(11), sda=Pin(10), freq=400000)
+bme = bme280.BME280(i2c=dev)
 print(bme.values)
