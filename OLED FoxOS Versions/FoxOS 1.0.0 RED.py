@@ -2,7 +2,7 @@
 Clipping on audio playback
 '''
 from time import sleep
-from machine import Pin, I2C, SoftI2C  # type: ignore
+from machine import Pin, I2C, SoftI2C, ADC  # type: ignore
 from ssd1309 import Display
 from picozero import Button, Pot
 from xglcd_font import XglcdFont
@@ -14,8 +14,9 @@ bally = XglcdFont('fonts/Bally7x9.c', 7, 9)
 #I2C interface
 display = Display(i2c=I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))) #initialize OLED display
 radio = Radio(SoftI2C(scl=Pin(1), sda=Pin(0), freq=400000))  # initialize radio
-radio.signal_adc_level = 10
+radio.signal_adc_level = 3
 Radio.mute = True
+temp_sensor = ADC(4)
 vertselect = Pot(26)
 btn = Button(18)
 location = ""
@@ -65,9 +66,11 @@ def menuone():
                 loadradio()
                 break
             if vertselect.value >= .50 and vertselect.value <= .74:
-                print("load weather report")
+                weathereport()
+                break
             if vertselect.value >= .25 and vertselect.value <= .49:
                 sysinfo()
+                break
             if vertselect.value >= 0 and vertselect.value <= .24:
                 print("load settings")
             sleep(0.01)
@@ -103,7 +106,7 @@ def loadradio():
     display.clear()
     sleep(1)
     Radio.mute = False
-    Radio.set_frequency(radio,104.3)
+    Radio.set_frequency(radio,101.7)
     display.clear()
     display.draw_rectangle(0,0,128,64)
     display.draw_text(3,3,"Fox Radio",bally)
@@ -127,6 +130,36 @@ def loadradio():
                 menuone()
                 break
         display.present()
+
+def weathereport():
+    display.clear()
+    sleep(1)
+    Radio.mute = True
+    adc_value = temp_sensor.read_u16()
+    voltage = adc_value * (3.3 / 65535.0)
+    temperature_celsius = 27 - (voltage - 0.706) / 0.001721
+    temp_farenheit = temperature_celsius * (9/5) + 32
+    display.draw_rectangle(0,0,128,64)
+    display.draw_text(3,3,"Snow-Fox Weather",bally)
+    display.draw_text(3,12,f"Temp: {round(temp_farenheit,2)}",bally)
+    display.draw_text(3,21,"Altitude:",bally)
+    display.draw_text(3,30,"Humidity:",bally)
+    display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
+    display.present()
+    while btn.is_pressed != True:
+        adc_value = temp_sensor.read_u16()
+        voltage = adc_value * (3.3 / 65535.0)
+        temperature_celsius = 27 - (voltage - 0.706) / 0.001721
+        temp_farenheit = temperature_celsius * (9/5) + 32
+        display.draw_text(3,12,"Temp:",bally)
+        display.draw_text(3,21,"Altitude:",bally)
+        display.draw_text(3,30,"Humidity:",bally)
+        display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
+        display.present()
+        sleep(0.5)
+    display.clear()
+    sleep(1)
+    
 
 
 #MAINLOOP
