@@ -7,6 +7,7 @@ from ssd1309 import Display
 from picozero import Button, Pot
 from xglcd_font import XglcdFont
 from TEA5767 import Radio
+from bme280_pico import BME280
 
 
 """Test code."""
@@ -19,6 +20,8 @@ Radio.mute = True
 temp_sensor = ADC(4)
 vertselect = Pot(26)
 btn = Button(18)
+bmeaddr = I2C(1, scl=Pin(3), sda=Pin(2), freq=100000)
+sensor = BME280(bmeaddr, address=0x77)
 location = ""
 
 def boot():
@@ -147,16 +150,22 @@ def weathereport():
     display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
     display.present()
     while btn.is_pressed != True:
+        t, p, h = sensor.read()
         adc_value = temp_sensor.read_u16()
         voltage = adc_value * (3.3 / 65535.0)
         temperature_celsius = 27 - (voltage - 0.706) / 0.001721
         temp_farenheit = temperature_celsius * (9/5) + 32
-        display.draw_text(3,12,"Temp:",bally)
-        display.draw_text(3,21,"Altitude:",bally)
-        display.draw_text(3,30,"Humidity:",bally)
+        display.draw_text(3,12,f"Temp: ",bally)
+        display.draw_text(3,21,f"Pressure:",bally)
+        display.draw_text(3,30,f"Humidity:",bally)
         display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
         display.present()
         sleep(0.5)
+        ################################## REUSE
+        t, p, h = sensor.read()
+        print("Temp: {:.2f} °C | Pressure: {:.2f} hPa | Humidity: {:.2f} %".format(
+        t, p / 100.0, h))
+        ###################################
     display.clear()
     sleep(1)
     
