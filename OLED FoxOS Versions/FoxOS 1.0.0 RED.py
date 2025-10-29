@@ -10,17 +10,16 @@ from TEA5767 import Radio
 from bme280_pico import BME280
 
 
-"""Test code."""
+#Defining components
 bally = XglcdFont('fonts/Bally7x9.c', 7, 9)
 #I2C interface
 display = Display(i2c=I2C(0, freq=400000, scl=Pin(5), sda=Pin(4))) #initialize OLED display
 radio = Radio(SoftI2C(scl=Pin(1), sda=Pin(0), freq=400000))  # initialize radio
 radio.signal_adc_level = 3
 Radio.mute = True
-temp_sensor = ADC(4)
 vertselect = Pot(26)
 btn = Button(18)
-bmeaddr = I2C(1, scl=Pin(3), sda=Pin(2), freq=100000)
+bmeaddr = I2C(1, scl=Pin(3), sda=Pin(2), freq=100000) #initialize weather sensor
 sensor = BME280(bmeaddr, address=0x77)
 location = ""
 
@@ -75,20 +74,29 @@ def menuone():
                 sysinfo()
                 break
             if vertselect.value >= 0 and vertselect.value <= .24:
-                print("load settings")
+                settings()
             sleep(0.01)
 
 def sysinfo():
     display.clear()
     sleep(0.1)
     display.draw_rectangle(0,0,128,64)
-    display.draw_text(3,3,"Build: 9/22/25",bally)
+    display.draw_text(3,3,"Build: 10/29/25",bally)
     display.draw_text(3,12,"Dev: Bryce",bally)
     display.draw_text(3,21,"Freq Band: US",bally)
     display.present()
     sleep(3)
     display.clear()
-    
+
+def settings():
+    display.clear()
+    sleep(0.1)
+    display.draw_rectangle(0,0,128,64)
+    display.draw_text(3,3,"Coming Soon!",bally)
+    display.present()
+    sleep(3)
+    display.clear()
+
 def changefreq():
     display.clear()
     sleep(1)
@@ -138,34 +146,21 @@ def weathereport():
     display.clear()
     sleep(1)
     Radio.mute = True
-    adc_value = temp_sensor.read_u16()
-    voltage = adc_value * (3.3 / 65535.0)
-    temperature_celsius = 27 - (voltage - 0.706) / 0.001721
-    temp_farenheit = temperature_celsius * (9/5) + 32
     display.draw_rectangle(0,0,128,64)
     display.draw_text(3,3,"Snow-Fox Weather",bally)
-    display.draw_text(3,12,f"Temp: {round(temp_farenheit,2)}",bally)
-    display.draw_text(3,21,"Altitude:",bally)
-    display.draw_text(3,30,"Humidity:",bally)
+    display.draw_text(3,12,"Temp. [C]:}",bally)
+    display.draw_text(3,21,"Pres. [KPa]:",bally)
+    display.draw_text(3,30,"Humi. [%]:",bally)
     display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
     display.present()
     while btn.is_pressed != True:
         t, p, h = sensor.read()
-        adc_value = temp_sensor.read_u16()
-        voltage = adc_value * (3.3 / 65535.0)
-        temperature_celsius = 27 - (voltage - 0.706) / 0.001721
-        temp_farenheit = temperature_celsius * (9/5) + 32
-        display.draw_text(3,12,f"Temp: ",bally)
-        display.draw_text(3,21,f"Pressure:",bally)
-        display.draw_text(3,30,f"Humidity:",bally)
+        display.draw_text(3,12,f"Temp. [C]: {round(t,2)} ",bally)
+        display.draw_text(3,21,f"Pres. [KPa]: {round((p/1000),2)}",bally)
+        display.draw_text(3,30,f"Humi. [%]: {round(h,2)}",bally)
         display.draw_text(3,39,"Press BTN to Exit",bally, invert = True)
         display.present()
         sleep(0.5)
-        ################################## REUSE
-        t, p, h = sensor.read()
-        print("Temp: {:.2f} °C | Pressure: {:.2f} hPa | Humidity: {:.2f} %".format(
-        t, p / 100.0, h))
-        ###################################
     display.clear()
     sleep(1)
     
