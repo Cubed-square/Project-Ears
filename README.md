@@ -1,7 +1,7 @@
 # Project EARS
 ## Empowering Accessibility <sub>through</sub> Radiological Solutions
 
-This is the code and document associated with a potential using a raspberry pico 2 and SSD 1309 OLED display to make a wrist mounted computer.
+This is the code and document associated with a potential using a raspberry pico and SSD 1309 OLED display to make a wrist mounted computer.
 
 The code contains a few different pieces, mostly pertaining to the OLED I2C API and the setup for that API.
 The main section however is designed to function as a miniature operating system for the user.
